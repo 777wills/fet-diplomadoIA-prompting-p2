@@ -1,0 +1,4 @@
+Clasifica el reporte de un usuario de BiblioFET en UNA categoría: BUG, MEJORA o DUDA.
+Responde solo con la categoría.
+
+Reporte: "Busco por autor García Márquez y la app se queda cargando."
