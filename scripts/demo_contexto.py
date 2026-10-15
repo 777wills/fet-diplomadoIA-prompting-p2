@@ -4,8 +4,8 @@ La instrucción va en el primer mensaje, el reglamento largo y la pregunta en el
 Si num_ctx es pequeño, Ollama descarta los mensajes más antiguos para que quepa el último:
 la instrucción se pierde.
 
-    python demo_contexto.py --num_ctx 2048
-    python demo_contexto.py --num_ctx 8192
+    uv run demo_contexto.py --num_ctx 2048
+    uv run demo_contexto.py --num_ctx 8192
 
 Ensaye antes de clase: el punto exacto de corte depende del modelo y de la versión de Ollama.
 Si con 2048 la instrucción todavía cabe, suba --articulos.

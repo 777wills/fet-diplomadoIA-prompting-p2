@@ -1,6 +1,6 @@
 """Primer uso: la misma pregunta que en la terminal, ahora desde Python.
 
-    python 01_primer_uso.py
+    uv run 01_primer_uso.py
 """
 from comun import preguntar
 

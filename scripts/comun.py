@@ -1,6 +1,6 @@
 """Función común para hablar con Ollama desde los scripts del kit.
 
-Requisitos:  pip install -U ollama pydantic
+Requisitos: ejecutar `uv sync` una vez en la raíz del repositorio.
 """
 from ollama import chat, ResponseError
 

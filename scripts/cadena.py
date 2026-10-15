@@ -1,6 +1,6 @@
 """Encadenamiento: la salida de cada prompt es la entrada del siguiente.
 
-    python cadena.py
+    uv run cadena.py
 """
 from comun import preguntar
 

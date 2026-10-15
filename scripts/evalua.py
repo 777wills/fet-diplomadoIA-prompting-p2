@@ -1,7 +1,7 @@
 """Evaluar prompts como código: dos versiones del prompt contra los mismos casos.
 
-    python evalua.py
-    python evalua.py --modelo qwen3.5:0.8b
+    uv run evalua.py
+    uv run evalua.py --modelo qwen3.5:0.8b
 """
 import argparse
 import re

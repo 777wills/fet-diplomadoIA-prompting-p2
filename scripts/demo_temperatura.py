@@ -1,6 +1,6 @@
 """La misma pregunta varias veces, con temperatura alta y con temperatura 0 + semilla.
 
-    python demo_temperatura.py
+    uv run demo_temperatura.py
 """
 from comun import preguntar
 

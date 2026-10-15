@@ -1,6 +1,6 @@
 """Salida estructurada: Ollama genera JSON que respeta un esquema de Pydantic.
 
-    python reporte_json.py
+    uv run reporte_json.py
 """
 from typing import Literal
 from pydantic import BaseModel
