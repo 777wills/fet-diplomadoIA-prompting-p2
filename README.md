@@ -61,6 +61,7 @@ El detalle de cada práctica (comandos para Linux, macOS y Windows, qué observa
 | 12 · Rol | `qwen-demo` | `prompts/08_rol_*.txt` |
 | 13 · Formato: tabla y JSON | `qwen-demo` y Python | `prompts/09_formato_tabla.txt`, `scripts/reporte_json.py` |
 | 14 · Más contexto no es mejor | `qwen3.5:4b` (desde Python) | `scripts/demo_contexto.py` |
+| 14B · Chat largo: la instrucción que se olvida | `qwen-demo` (chat interactivo) | `prompts/13_chat_largo.txt` |
 | 15 · Prompt injection | `revisor-ingenuo` y `revisor-fet` | `prompts/10_*.txt` |
 | 16 · Optimizar con IA | Un modelo grande o `qwen-demo` | `prompts/11_meta_prompt.txt` |
 | 17 · Evaluar prompts | `qwen3.5:4b` (desde Python) | `scripts/evalua.py` |

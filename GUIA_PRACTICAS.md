@@ -25,6 +25,7 @@ Esta guía le permite repetir en su computador todas las demos de la clase, en e
 16. [Práctica 12 · Definir el rol](#práctica-12--definir-el-rol)
 17. [Práctica 13 · Formato de salida: tabla y JSON](#práctica-13--formato-de-salida-tabla-y-json)
 18. [Práctica 14 · Más contexto no es mejor](#práctica-14--más-contexto-no-es-mejor)
+    - [Práctica 14B · La instrucción que se olvida en un chat largo](#práctica-14b--la-instrucción-que-se-olvida-en-un-chat-largo)
 19. [Práctica 15 · Prompt injection](#práctica-15--prompt-injection)
 20. [Práctica 16 · Optimizar un prompt con IA](#práctica-16--optimizar-un-prompt-con-ia)
 21. [Práctica 17 · Evaluar prompts como código](#práctica-17--evaluar-prompts-como-código)
@@ -403,6 +404,58 @@ El script envía tres mensajes: una instrucción («responde solo SÍ o NO»), u
 - Con 8192 cabe todo y debería responder «NO».
 
 > Si con 2048 todavía obedece la instrucción, aumente el reglamento: `uv run demo_contexto.py --num_ctx 2048 --articulos 60`.
+
+## Práctica 14B · La instrucción que se olvida en un chat largo
+
+**Objetivo:** comprobar que, en una conversación, una instrucción dada en un mensaje se pierde cuando el historial ya no cabe en la ventana, y que la misma instrucción en el system prompt se conserva.
+
+**Cómo funciona:** en cada turno, el chat le reenvía al modelo **toda** la conversación. Cuando ya no cabe en `num_ctx`, Ollama descarta mensajes completos, empezando por el más antiguo, pero siempre conserva el último mensaje y el system prompt.
+
+La práctica se hace en el chat interactivo, escribiendo una línea a la vez. Los textos están en `prompts/13_chat_largo.txt` para copiarlos.
+
+**Versión A: la regla como mensaje del chat**
+
+```bash
+ollama run qwen-demo --think=false
+```
+
+```text
+>>> /set parameter num_ctx 512
+>>> Regla: empieza SIEMPRE tu respuesta con «Claro, vamos». ¿Entendido?
+>>> Explica en al menos 400 palabras cómo funciona un préstamo de biblioteca.
+>>> Explica en al menos 400 palabras qué es una base de datos relacional.
+```
+
+**Versión B: la misma regla como system prompt**
+
+```text
+>>> /clear
+>>> /set system Empieza SIEMPRE tu respuesta con «Claro, vamos».
+>>> Explica en al menos 400 palabras cómo funciona un préstamo de biblioteca.
+>>> Explica en al menos 400 palabras qué es una base de datos relacional.
+>>> /bye
+```
+
+**Por qué funciona con solo dos preguntas:**
+
+- La ventana es de 512 tokens y cada respuesta de 400 palabras ocupa unos 600 tokens: no cabe ni una respuesta completa más la pregunta siguiente.
+- En la segunda pregunta, Ollama tiene que descartar la regla **y también** la primera respuesta. El modelo solo ve la pregunta 2.
+- Que la primera respuesta también salga es importante. Si siguiera en la ventana, el modelo vería que empieza con «Claro, vamos» y la **imitaría**, aunque la regla ya no estuviera.
+
+**Qué observar:**
+
+| Versión | Dónde está la regla | Respuesta 1 | Respuesta 2 |
+|---|---|---|---|
+| A | Mensaje del chat | Empieza con «Claro, vamos» | Ya no empieza así |
+| B | System prompt | Empieza con «Claro, vamos» | Empieza con «Claro, vamos» |
+
+> En un portátil sin GPU, cada respuesta larga tarda alrededor de un minuto y medio con `qwen-demo`.
+
+> **Si en la versión A la segunda respuesta todavía empieza con «Claro, vamos»:** probablemente la primera respuesta fue más corta de lo pedido y siguió en la ventana. Haga una tercera pregunta igual de larga o baje la ventana con `/set parameter num_ctx 384`.
+
+- Si la regla deja de cumplirse antes de llenar la ventana, no es recorte sino **deriva**: la regla sigue ahí, pero el modelo le presta menos atención.
+
+**Para pensar:** en un agente que trabaja durante horas, ¿dónde deberían ir las reglas que siempre se deben cumplir? ¿Qué estrategias de ingeniería de contexto evitan que se pierdan (compactar, persistir notas, aislar en sub-agentes)?
 
 ## Práctica 15 · Prompt injection
 
